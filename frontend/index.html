@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DataInsightBot | AI Business Analyst</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    📊
+                </div>
+
+                <div>
+                    <h2>DataInsightBot</h2>
+                    <span>AI Business Analyst</span>
+                </div>
+            </div>
+
+
+            <div class="sidebar-section">
+
+                <p class="sidebar-label">
+                    ANALYTICS
+                </p>
+
+                <button class="sidebar-button active" onclick="showAnalyst()">
+                    <span>🤖</span>
+                    AI Analyst
+                </button>
+
+                <button class="sidebar-button" onclick="showPrediction()">
+                    <span>📈</span>
+                    ML Prediction
+                </button>
+
+            </div>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>System Online</strong>
+                        <small>API connected</small>
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    DataInsightBot © 2026
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div>
+                    <p class="topbar-label">
+                        BUSINESS INTELLIGENCE
+                    </p>
+
+                    <h1 id="page-title">
+                        AI Analyst
+                    </h1>
+                </div>
+
+                <div class="topbar-badge">
+                    <span>●</span>
+                    AI Powered
+                </div>
+
+            </header>
+
+
+            <!-- ================= AI ANALYST ================= -->
+
+            <section id="analyst-section">
+
+                <div class="welcome-card">
+
+                    <div class="welcome-icon">
+                        ✨
+                    </div>
+
+                    <div>
+                        <h2>Ask your data anything</h2>
+
+                        <p>
+                            Ask a business question in plain English.
+                            DataInsightBot will generate SQL, analyze your database
+                            and explain the result.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION CARD -->
+
+                <div class="question-card">
+
+                    <div class="card-heading">
+
+                        <div>
+                            <span class="section-number">01</span>
+
+                            <div>
+                                <h3>Ask a Question</h3>
+                                <p>Query your company database using natural language.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <textarea
+                        id="question"
+                        placeholder="Example: Which department has the highest average salary?"
+                    ></textarea>
+
+
+                    <div class="question-bottom">
+
+                        <div class="suggestions">
+
+                            <span>Try:</span>
+
+                            <button onclick="setQuestion('Which department has the highest average salary?')">
+                                Highest average salary
+                            </button>
+
+                            <button onclick="setQuestion('Which department has the most employees?')">
+                                Most employees
+                            </button>
+
+                            <button onclick="setQuestion('What are the total sales?')">
+                                Total sales
+                            </button>
+
+                        </div>
+
+
+                        <button class="analyze-button" onclick="askQuestion()">
+                            <span>Analyze</span>
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div id="loading" class="loading hidden">
+
+                    <div class="loader"></div>
+
+                    <div>
+                        <strong>Analyzing your question...</strong>
+                        <span>Generating SQL and processing your data</span>
+                    </div>
+
+                </div>
+
+
+                <!-- RESULTS -->
+
+                <div id="result" class="result-area hidden">
+
+
+                    <!-- AI INSIGHT -->
+
+                    <div class="result-card insight-card">
+
+                        <div class="result-card-header">
+
+                            <div class="result-title">
+                                <span class="result-icon">💡</span>
+
+                                <div>
+                                    <h3>AI Insight</h3>
+                                    <p>Business interpretation</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="explanation" class="explanation">
+                        </div>
+
+                    </div>
+
+
+                    <!-- SQL -->
+
+                    <div class="result-card">
+
+                        <div class="result-card-header">
+
+                            <div class="result-title">
+                                <span class="result-icon">⌘</span>
+
+                                <div>
+                                    <h3>Generated SQL</h3>
+                                    <p>Query generated by the AI</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <pre id="sql"></pre>
+
+                    </div>
+
+
+                    <!-- QUERY RESULT -->
+
+                    <div class="result-card">
+
+                        <div class="result-card-header">
+
+                            <div class="result-title">
+                                <span class="result-icon">📊</span>
+
+                                <div>
+                                    <h3>Query Results</h3>
+                                    <p>Data returned from the database</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="table-container" class="table-container">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= ML PREDICTION ================= -->
+
+            <section id="prediction" class="hidden">
+
+                <div class="welcome-card prediction-welcome">
+
+                    <div class="welcome-icon">
+                        🔮
+                    </div>
+
+                    <div>
+                        <h2>Future Sales Prediction</h2>
+
+                        <p>
+                            Use the machine learning model to generate
+                            future sales revenue predictions.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-card-header">
+
+                        <div class="result-title">
+
+                            <span class="result-icon">
+                                📈
+                            </span>
+
+                            <div>
+                                <h3>Predicted Revenue</h3>
+                                <p>Machine learning forecast</p>
+                            </div>
+
+                        </div>
+
+                        <span class="model-badge">
+                            Random Forest
+                        </span>
+
+                    </div>
+
+
+                    <div id="prediction-table" class="table-container">
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="main-footer">
+
+                <span>
+                    DataInsightBot
+                </span>
+
+                <span>
+                    AI Powered Business Analytics
+                </span>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

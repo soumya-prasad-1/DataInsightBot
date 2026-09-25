@@ -1,6 +1,6 @@
-from gemini_service import generate_sql, explain_result
-from database_query import execute_query
-from sql_validator import validate_sql
+from backend.gemini_service import generate_sql, explain_result
+from backend.database_query import execute_query
+from backend.sql_validator import validate_sql
 
 
 def chat_with_database(question):
@@ -65,7 +65,6 @@ def chat_with_database(question):
     explanation = explain_result(
         question,
         sql,
-        result["columns"],
         result["rows"]
     )
 

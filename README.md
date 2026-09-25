@@ -1,265 +1,176 @@
-# 📊 DataInsightBot — AI Powered Business Analyst
+# DataInsightBot 🤖📊
+
+DataInsightBot is an AI-powered business analytics project that helps users understand company data by simply asking questions in natural language.
+
+Instead of manually writing SQL queries, users can ask questions like **"Which department has the highest average salary?"** and the application uses Gemini AI to generate the required SQL query, fetch the data from the database, and explain the result in simple terms.
+
+The project also includes a Machine Learning module that uses Random Forest to predict future sales revenue.
+
+## ✨ Features
+
+- Ask questions about company data using natural language
+- Automatically generate SQL queries using Gemini AI
+- Execute queries on a SQLite database
+- Get AI-generated explanations of query results
+- View query results in a clean table
+- Predict future sales revenue using Machine Learning
+- Modern web interface built with HTML, CSS and JavaScript
+- SQL validation for safer database queries
 
-DataInsightBot is an AI-powered business analytics application that allows users to interact with company data using natural language.
+## 🛠️ Tech Stack
 
-Users can ask business questions such as:
+### Frontend
+- HTML
+- CSS
+- JavaScript
 
-* Which department has the highest average salary?
-* Which region generated the highest sales?
-* Which project has the highest revenue?
+### Backend
+- Python
+- FastAPI
+- Uvicorn
 
-The application uses **Gemini AI** to convert natural-language questions into SQL queries, retrieves data from a **SQLite database**, and generates easy-to-understand business insights.
+### AI
+- Google Gemini API
+- google-genai
 
-It also includes a **Machine Learning revenue prediction module** using Random Forest Regression.
+### Database
+- SQLite
 
----
+### Machine Learning
+- Pandas
+- Scikit-learn
+- Random Forest Regression
 
-## 🚀 Features
+## 📁 Project Structure
 
-### 🤖 AI Business Analyst
+    DataInsightBot/
+    │
+    ├── backend/
+    │   ├── database/
+    │   ├── chat_service.py
+    │   ├── database_query.py
+    │   ├── database_setup.py
+    │   ├── gemini_service.py
+    │   ├── insert_data.py
+    │   ├── main.py
+    │   ├── ml_prediction.py
+    │   ├── schema.py
+    │   ├── sql_validator.py
+    │   └── test_database.py
+    │
+    ├── frontend/
+    │   ├── index.html
+    │   ├── script.js
+    │   └── style.css
+    │
+    ├── .gitignore
+    └── README.md
 
-* Ask questions about company data in natural language.
-* Gemini AI converts questions into SQL.
-* SQL queries are validated before execution.
-* Queries are executed on the SQLite database.
-* Gemini generates business-friendly explanations.
+## 🔄 How It Works
 
-### 🔍 SQL Validation
+The AI Analyst follows this simple flow:
 
-The application allows safe read-only SQL queries and blocks potentially dangerous operations such as:
+    User Question
+          ↓
+      Gemini AI
+          ↓
+    SQL Query Generation
+          ↓
+      SQL Validation
+          ↓
+    SQLite Database
+          ↓
+      Query Result
+          ↓
+     AI Explanation
+          ↓
+         User
 
-* INSERT
-* UPDATE
-* DELETE
-* DROP
-* ALTER
-* CREATE
-* TRUNCATE
+For example, a user can ask:
 
-### 📊 Data Analysis
+> Which department has the highest average salary?
 
-The application displays:
+DataInsightBot converts the question into an SQL query, runs it on the database, and then explains the result in simple terms.
 
-* Business answers
-* Generated SQL
-* Database results
-* Automatic visualizations
+The ML module works separately by using historical sales data with a Random Forest model to generate future revenue predictions.
 
-### 📈 Machine Learning Prediction
+## 🚀 How to Run
 
-The application uses **Random Forest Regression** to predict future revenue based on historical sales data.
+### 1. Clone the Repository
 
-It provides:
+    git clone https://github.com/soumya-prasad-1/DataInsightBot.git
+    cd DataInsightBot
 
-* Revenue predictions
-* Average predicted revenue
-* Forecast visualization
-* Prediction details
-* Business insights
+### 2. Install the Required Packages
 
----
+    pip install fastapi uvicorn python-dotenv pandas scikit-learn google-genai
 
-## 🖥️ Application Screenshots
+### 3. Add Your Gemini API Key
 
-### 🏠 DataInsightBot Dashboard
+Create a file named `.env` inside the `backend` folder.
 
-![DataInsightBot Dashboard](dashboard.png)
+    backend/.env
 
-### 🤖 AI Business Analysis
+Add your API key:
 
-![AI Business Analysis](ai_analysis.png)
+    GEMINI_API_KEY=your_api_key_here
 
-### 📈 Machine Learning Revenue Prediction
+Keep this file private. Do not upload it to GitHub.
 
-![ML Revenue Prediction](ml_prediction.png)
+### 4. Start the Backend
 
----
+Run this command from the project folder:
 
-## 🏗️ Architecture
+    uvicorn backend.main:app --reload
 
-```text
-User
-  ↓
-Streamlit Interface
-  ↓
-Gemini AI
-  ↓
-Natural Language → SQL
-  ↓
-SQL Validator
-  ↓
-SQLite Database
-  ↓
-Query Results
-  ↓
-Gemini Explanation
-  ↓
-Business Answer + Table + Visualization
-```
+The backend will run at:
 
-### ML Pipeline
+    http://127.0.0.1:8000
 
-```text
-Historical Sales Data
-        ↓
-Data Preparation
-        ↓
-Random Forest Regression
-        ↓
-Future Revenue Prediction
-        ↓
-Business Insights
-```
+### 5. Open the Frontend
 
----
+Open `frontend/index.html` using VS Code Live Server.
 
-## 🛠️ Technology Stack
+## 💬 Example Questions
 
-| Technology    | Purpose                         |
-| ------------- | ------------------------------- |
-| Python        | Core programming                |
-| Streamlit     | Web application                 |
-| Gemini AI     | SQL generation and explanations |
-| SQLite        | Database                        |
-| Pandas        | Data processing                 |
-| Scikit-learn  | Machine Learning                |
-| Random Forest | Revenue prediction              |
-| SQL           | Database querying               |
+You can ask questions such as:
 
----
+- Which department has the highest average salary?
+- Which department has the most employees?
+- What are the total sales?
+- Show me the sales data.
+- Which department has the lowest average salary?
 
-## 🗄️ Database
+## 📈 Machine Learning
 
-The current project uses a local SQLite database containing demo company data.
+The project includes a Random Forest Regression model for sales prediction.
 
-### Tables
+It uses historical sales data to learn patterns and predict future revenue. The predictions are displayed directly in the web interface.
 
-* **Departments** — department information
-* **Employees** — employee information and salaries
-* **Projects** — project budgets, revenue and status
-* **Sales** — sales, revenue, profit and location data
+## 🔐 Security
 
----
+The project includes SQL validation before executing generated queries.
 
-## 🔄 AI Workflow
+The Gemini API key is stored in an environment file and is excluded from GitHub using `.gitignore`.
 
-1. User enters a business question.
-2. Gemini generates an SQL query.
-3. SQL Validator checks the query.
-4. Valid SQL is executed on the SQLite database.
-5. Database results are retrieved.
-6. Gemini converts the results into a business-friendly explanation.
-7. The application displays the answer, SQL, result table and visualization.
+## 🎯 What I Learned
 
----
+While building DataInsightBot, I worked with:
 
-## 📈 ML Prediction Workflow
+- Natural language to SQL generation
+- Gemini API integration
+- FastAPI backend development
+- SQLite database operations
+- SQL validation
+- Machine Learning with Random Forest
+- HTML, CSS and JavaScript
+- Connecting a frontend with a Python backend
+- Handling API responses and errors
 
-1. Historical sales data is loaded.
-2. Data is prepared for prediction.
-3. A Random Forest Regression model is trained.
-4. Future revenue is predicted.
-5. Predictions and business insights are displayed.
+## 👩‍💻 Author
 
----
+**Soumya Prasad**
 
-## ▶️ How to Run
+B.Tech CSE (Data Science)
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/soumya-prasad-1/DataInsightBot.git
-cd DataInsightBot
-```
-
-### 2. Create a virtual environment
-
-```bash
-python -m venv .venv
-```
-
-### 3. Activate it
-
-Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-### 4. Install dependencies
-
-```bash
-pip install streamlit pandas scikit-learn google-genai
-```
-
-### 5. Add Gemini API Key
-
-Create a `.env` file and add:
-
-```text
-GEMINI_API_KEY=your_api_key_here
-```
-
-**Never upload the `.env` file to GitHub.**
-
-### 6. Run the application
-
-```bash
-streamlit run app.py
-```
-
----
-
-## 💡 Example Questions
-
-```text
-Which department has the highest average salary?
-```
-
-```text
-Which region generated the highest sales?
-```
-
-```text
-Which project has the highest revenue?
-```
-
-```text
-Which employee has the highest salary?
-```
-
----
-
-## 📌 Project Scope
-
-This is a **demonstration and learning project** using a local SQLite database and demo company data.
-
-The project focuses on demonstrating:
-
-* Generative AI
-* Natural Language to SQL
-* Database querying
-* Business analytics
-* Data visualization
-* Machine Learning forecasting
-
-It is **not intended to be a production-level enterprise system**.
-
----
-
-## 🔮 Future Scope
-
-* Real company database integration
-* Advanced forecasting models
-* Cloud database integration
-* Advanced analytics
-* Automated report generation
-* Cloud deployment
-
----
-
-## 👩‍💻 Project
-
-**DataInsightBot — AI Powered Business Analyst**
-
-Built using **Python, Streamlit, Gemini AI, SQLite, Pandas and Scikit-learn.**
+GitHub: https://github.com/soumya-prasad-1

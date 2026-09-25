@@ -1,75 +1,80 @@
-from gemini_service import generate_sql, explain_result
-from sql_validator import validate_sql
-from database_query import execute_query
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+from backend.chat_service import chat_with_database
+from backend.ml_prediction import predict_future_sales
 
 
-def ask_database(question):
-
-    # Step 1: Generate SQL
-    print("\nGenerating SQL...")
-
-    sql = generate_sql(question)
-
-    print("\nGenerated SQL:")
-    print(sql)
-
-    # Step 2: Validate SQL
-    print("\nValidating SQL...")
-
-    is_valid, message = validate_sql(sql)
-
-    if not is_valid:
-        return f"SQL validation failed: {message}"
-
-    print(f"SQL validation successful: {message}")
-
-    # Step 3: Execute SQL
-    print("\nExecuting SQL...")
-
-    result = execute_query(sql)
-
-    # Check for database error
-    if "error" in result:
-        return f"Database error: {result['error']}"
-
-    columns = result["columns"]
-    rows = result["rows"]
-
-    print("\nDatabase Result:")
-    print("Columns:", columns)
-
-    for row in rows:
-        print(row)
-
-    # Step 4: Generate business explanation
-    print("\nGenerating business explanation...")
-
-    explanation = explain_result(
-        question,
-        sql,
-        columns,
-        rows
-    )
-
-    return explanation
+app = FastAPI(title="DataInsightBot API")
 
 
-# =========================
-# Main Program
-# =========================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
-if __name__ == "__main__":
 
-    print("=" * 60)
-    print("DataInsightBot - AI Powered Business Analyst")
-    print("=" * 60)
+class Question(BaseModel):
+    question: str
 
-    question = input("\nAsk your business question: ")
 
-    answer = ask_database(question)
+@app.get("/")
+def home():
+    return {
+        "message": "DataInsightBot API is running"
+    }
 
-    print("\n" + "=" * 60)
-    print("Business Answer")
-    print("=" * 60)
 
-    print(answer)
+@app.post("/ask")
+def ask_question(data: Question):
+
+    if not data.question.strip():
+        return {
+            "success": False,
+            "error": "Please enter a question."
+        }
+
+    try:
+
+        result = chat_with_database(
+            data.question
+        )
+
+        return result
+
+    except Exception as error:
+
+        return {
+            "success": False,
+            "error": str(error)
+        }
+
+
+@app.get("/prediction")
+def prediction():
+
+    try:
+
+        data = predict_future_sales(30)
+
+        data["sale_date"] = data[
+            "sale_date"
+        ].astype(str)
+
+        return {
+            "success": True,
+            "data": data.to_dict(
+                orient="records"
+            )
+        }
+
+    except Exception as error:
+
+        return {
+            "success": False,
+            "error": str(error)
+        }
