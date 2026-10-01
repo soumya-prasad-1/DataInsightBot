@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -23,9 +24,12 @@ class Question(BaseModel):
     question: str
 
 
-@app.get("/")
-def home():
-    return FileResponse("frontend/index.html")
+@app.get("/prediction")
+def prediction():
+    return predict_future_sales(30)
+
+
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 
 @app.post("/ask")
