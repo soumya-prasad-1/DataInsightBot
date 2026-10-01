@@ -1,2 +1,15 @@
+[project]
+name = "datainsightbot"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pandas",
+    "scikit-learn",
+    "google-genai",
+    "python-dotenv"
+]
+
 [tool.vercel]
 entrypoint = "backend.main:app"
