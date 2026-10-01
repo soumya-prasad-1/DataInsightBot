@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from backend.chat_service import chat_with_database
@@ -22,14 +21,6 @@ app.add_middleware(
 
 class Question(BaseModel):
     question: str
-
-
-@app.get("/prediction")
-def prediction():
-    return predict_future_sales(30)
-
-
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 
 @app.post("/ask")
@@ -81,3 +72,14 @@ def prediction():
             "success": False,
             "error": str(error)
         }
+
+
+# Frontend must be mounted AFTER API routes
+app.mount(
+    "/",
+    StaticFiles(
+        directory="frontend",
+        html=True
+    ),
+    name="frontend"
+)
