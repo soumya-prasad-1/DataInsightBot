@@ -7,12 +7,15 @@ let currentSQL = "";
 // RECENT QUESTIONS HISTORY
 // =====================================================
 
-const HISTORY_KEY = "datainsightbot_recent_questions";
+const HISTORY_KEY =
+    "datainsightbot_recent_questions";
 
 const MAX_HISTORY = 8;
 
 
-// Get saved history
+// =====================================================
+// GET HISTORY
+// =====================================================
 
 function getHistory() {
 
@@ -20,31 +23,44 @@ function getHistory() {
 
         const history =
             JSON.parse(
-                localStorage.getItem(HISTORY_KEY) || "[]"
+                localStorage.getItem(
+                    HISTORY_KEY
+                ) || "[]"
             );
 
+
         if (Array.isArray(history)) {
+
             return history;
+
         }
+
 
         return [];
 
     } catch (error) {
 
         return [];
+
     }
+
 }
 
 
-// Save question to history
+// =====================================================
+// SAVE QUESTION TO HISTORY
+// =====================================================
 
 function saveQuestionToHistory(question) {
 
     const cleanQuestion =
         question.trim();
 
+
     if (!cleanQuestion) {
+
         return;
+
     }
 
 
@@ -52,7 +68,7 @@ function saveQuestionToHistory(question) {
         getHistory();
 
 
-    // Remove duplicate question
+    // Remove duplicate
 
     history =
         history.filter(
@@ -62,15 +78,20 @@ function saveQuestionToHistory(question) {
         );
 
 
-    // Put newest question at the top
+    // Newest first
 
-    history.unshift(cleanQuestion);
+    history.unshift(
+        cleanQuestion
+    );
 
 
-    // Keep only latest 8 questions
+    // Maximum 8
 
     history =
-        history.slice(0, MAX_HISTORY);
+        history.slice(
+            0,
+            MAX_HISTORY
+        );
 
 
     localStorage.setItem(
@@ -80,10 +101,13 @@ function saveQuestionToHistory(question) {
 
 
     renderHistory();
+
 }
 
 
-// Render history in sidebar
+// =====================================================
+// RENDER HISTORY
+// =====================================================
 
 function renderHistory() {
 
@@ -92,16 +116,26 @@ function renderHistory() {
             "recent-history-list"
         );
 
+
     const clearButton =
         document.getElementById(
             "clear-history"
         );
 
 
-    // Safety check
+    const historyCount =
+        document.getElementById(
+            "history-count"
+        );
 
-    if (!container || !clearButton) {
+
+    if (
+        !container ||
+        !clearButton
+    ) {
+
         return;
+
     }
 
 
@@ -109,107 +143,225 @@ function renderHistory() {
         getHistory();
 
 
-    // No history
+    // Update count
+
+    if (historyCount) {
+
+        historyCount.textContent =
+            history.length;
+
+    }
+
+
+    // =================================================
+    // EMPTY HISTORY
+    // =================================================
 
     if (!history.length) {
 
         container.innerHTML = `
+
             <div class="history-empty">
-                No recent questions
+
+                <div class="history-empty-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <strong>
+                        No questions yet
+                    </strong>
+
+                    <span>
+                        Your recent queries will appear here
+                    </span>
+
+                </div>
+
             </div>
+
         `;
 
-        clearButton.classList.add("hidden");
+
+        clearButton.classList.add(
+            "hidden"
+        );
+
 
         return;
+
     }
 
 
     // Show clear button
 
-    clearButton.classList.remove("hidden");
+    clearButton.classList.remove(
+        "hidden"
+    );
 
 
-    // Clear previous history
+    // Clear old history
 
     container.innerHTML = "";
 
 
-    // Create history items
+    // =================================================
+    // CREATE HISTORY ITEMS
+    // =================================================
 
-    history.forEach(question => {
+    history.forEach(
+        (question, index) => {
 
-        const button =
-            document.createElement("button");
-
-
-        button.type = "button";
-
-        button.className =
-            "history-item";
-
-
-        button.title =
-            question;
+            const button =
+                document.createElement(
+                    "button"
+                );
 
 
-        button.textContent =
-            question;
+            button.type =
+                "button";
 
 
-        // When user clicks old question
+            button.className =
+                "history-item";
 
-        button.addEventListener(
-            "click",
-            () => {
 
-                const input =
-                    document.getElementById(
-                        "question"
+            button.title =
+                question;
+
+
+            button.innerHTML = `
+
+                <span class="history-item-number">
+
+                    ${String(index + 1).padStart(2, "0")}
+
+                </span>
+
+
+                <span class="history-item-content">
+
+                    <span class="history-item-text">
+
+                        ${escapeHTML(question)}
+
+                    </span>
+
+
+                    <span class="history-item-label">
+
+                        Previous query
+
+                    </span>
+
+                </span>
+
+
+                <span class="history-item-arrow">
+
+                    →
+
+                </span>
+
+            `;
+
+
+            // =================================================
+            // CLICK HISTORY
+            // =================================================
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    // Remove active
+                    // from all items
+
+                    document
+                        .querySelectorAll(
+                            ".history-item"
+                        )
+                        .forEach(
+                            item => {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                    // Highlight selected item
+
+                    button.classList.add(
+                        "active"
                     );
 
 
-                input.value =
-                    question;
+                    // Put question
+                    // inside textarea
+
+                    const input =
+                        document.getElementById(
+                            "question"
+                        );
 
 
-                input.focus();
+                    input.value =
+                        question;
 
 
-                // Highlight input
-
-                input.style.borderColor =
-                    "#6366f1";
+                    input.focus();
 
 
-                setTimeout(() => {
+                    // Highlight textarea
 
-                    input.style.borderColor =
-                        "";
+                    input.classList.add(
+                        "history-selected"
+                    );
 
-                }, 800);
+
+                    setTimeout(
+                        () => {
+
+                            input.classList.remove(
+                                "history-selected"
+                            );
+
+                        },
+                        1000
+                    );
 
 
-                // If on mobile,
-                // open AI Analyst
+                    // Mobile
 
-                if (window.innerWidth <= 750) {
+                    if (
+                        window.innerWidth <= 750
+                    ) {
 
-                    showAnalyst();
+                        showAnalyst();
+
+                    }
 
                 }
-
-            }
-        );
+            );
 
 
-        container.appendChild(button);
+            container.appendChild(
+                button
+            );
 
-    });
+        }
+    );
+
 }
 
 
-// Clear all history
+// =====================================================
+// CLEAR HISTORY
+// =====================================================
 
 function clearHistory() {
 
@@ -219,6 +371,7 @@ function clearHistory() {
 
 
     renderHistory();
+
 }
 
 
@@ -229,7 +382,9 @@ function clearHistory() {
 async function askQuestion() {
 
     const questionInput =
-        document.getElementById("question");
+        document.getElementById(
+            "question"
+        );
 
 
     const question =
@@ -240,29 +395,39 @@ async function askQuestion() {
 
         questionInput.focus();
 
+
         questionInput.classList.add(
             "input-error"
         );
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            questionInput.classList.remove(
-                "input-error"
-            );
+                questionInput.classList.remove(
+                    "input-error"
+                );
 
-        }, 1000);
+            },
+            1000
+        );
+
 
         return;
+
     }
 
 
     const loading =
-        document.getElementById("loading");
+        document.getElementById(
+            "loading"
+        );
 
 
     const result =
-        document.getElementById("result");
+        document.getElementById(
+            "result"
+        );
 
 
     const analyzeButton =
@@ -279,23 +444,31 @@ async function askQuestion() {
 
     // Hide previous result
 
-    result.classList.add("hidden");
+    result.classList.add(
+        "hidden"
+    );
 
 
     // Show loading
 
-    loading.classList.remove("hidden");
+    loading.classList.remove(
+        "hidden"
+    );
 
 
     // Disable button
 
-    analyzeButton.disabled = true;
+    analyzeButton.disabled =
+        true;
+
 
     analyzeText.textContent =
         "Analyzing";
 
 
-    // Loading messages
+    // =================================================
+    // LOADING MESSAGES
+    // =================================================
 
     const loadingTitle =
         document.getElementById(
@@ -322,6 +495,7 @@ async function askQuestion() {
         {
             title:
                 "DataInsightBot is thinking...",
+
             subtitle:
                 "Understanding your question"
         },
@@ -329,6 +503,7 @@ async function askQuestion() {
         {
             title:
                 "Generating SQL...",
+
             subtitle:
                 "Creating a database query"
         },
@@ -336,6 +511,7 @@ async function askQuestion() {
         {
             title:
                 "Analyzing your data...",
+
             subtitle:
                 "Finding useful business insights"
         }
@@ -347,44 +523,63 @@ async function askQuestion() {
 
 
     const loadingInterval =
-        setInterval(() => {
+        setInterval(
+            () => {
 
-            step++;
-
-
-            if (
-                step <
-                loadingSteps.length
-            ) {
-
-                loadingTitle.textContent =
-                    loadingSteps[step].title;
+                step++;
 
 
-                loadingSubtitle.textContent =
-                    loadingSteps[step].subtitle;
+                if (
+                    step <
+                    loadingSteps.length
+                ) {
 
-            }
+                    loadingTitle.textContent =
+                        loadingSteps[
+                            step
+                        ].title;
 
-        }, 700);
+
+                    loadingSubtitle.textContent =
+                        loadingSteps[
+                            step
+                        ].subtitle;
+
+                }
+
+            },
+            700
+        );
 
 
     try {
+
+        // =================================================
+        // API CALL
+        // =================================================
 
         const response =
             await fetch(
                 `${API_URL}/ask`,
                 {
-                    method: "POST",
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
-                        question: question
-                    })
+                    body:
+                        JSON.stringify(
+                            {
+                                question:
+                                    question
+                            }
+                        )
+
                 }
             );
 
@@ -394,6 +589,7 @@ async function askQuestion() {
             throw new Error(
                 `Server error (${response.status})`
             );
+
         }
 
 
@@ -407,25 +603,30 @@ async function askQuestion() {
                 data.error ||
                 "Something went wrong."
             );
+
         }
 
 
-        // ==========================================
-        // SAVE SUCCESSFUL QUESTION TO HISTORY
-        // ==========================================
+        // =================================================
+        // SAVE HISTORY
+        // =================================================
 
         saveQuestionToHistory(
             question
         );
 
 
-        // Save SQL
+        // =================================================
+        // SAVE SQL
+        // =================================================
 
         currentSQL =
             data.sql || "";
 
 
-        // Show user's question
+        // =================================================
+        // QUESTION
+        // =================================================
 
         document.getElementById(
             "asked-question"
@@ -433,7 +634,9 @@ async function askQuestion() {
             question;
 
 
-        // Show AI explanation
+        // =================================================
+        // AI EXPLANATION
+        // =================================================
 
         document.getElementById(
             "explanation"
@@ -442,7 +645,9 @@ async function askQuestion() {
             "No explanation available.";
 
 
-        // Show SQL
+        // =================================================
+        // SQL
+        // =================================================
 
         document.getElementById(
             "sql"
@@ -451,7 +656,9 @@ async function askQuestion() {
             "No SQL generated.";
 
 
-        // Create table
+        // =================================================
+        // TABLE
+        // =================================================
 
         createTable(
             data.columns || [],
@@ -459,7 +666,9 @@ async function askQuestion() {
         );
 
 
-        // Result count
+        // =================================================
+        // RESULT COUNT
+        // =================================================
 
         const resultCount =
             document.getElementById(
@@ -481,13 +690,17 @@ async function askQuestion() {
             }`;
 
 
-        // Reset SQL section
+        // =================================================
+        // RESET SQL
+        // =================================================
 
         document
             .getElementById(
                 "sql-content"
             )
-            .classList.add("hidden");
+            .classList.add(
+                "hidden"
+            );
 
 
         document
@@ -498,23 +711,33 @@ async function askQuestion() {
                 "▼";
 
 
-        // Show results
+        // =================================================
+        // SHOW RESULTS
+        // =================================================
 
         result.classList.remove(
             "hidden"
         );
 
 
-        // Scroll smoothly to result
+        // Scroll to result
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            result.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+                result.scrollIntoView(
+                    {
+                        behavior:
+                            "smooth",
 
-        }, 100);
+                        block:
+                            "start"
+                    }
+                );
+
+            },
+            100
+        );
 
 
     } catch (error) {
@@ -522,6 +745,7 @@ async function askQuestion() {
         showError(
             error.message
         );
+
 
     } finally {
 
@@ -541,7 +765,9 @@ async function askQuestion() {
 
         analyzeText.textContent =
             "Analyze";
+
     }
+
 }
 
 
@@ -549,7 +775,10 @@ async function askQuestion() {
 // CREATE TABLE
 // =====================================================
 
-function createTable(columns, rows) {
+function createTable(
+    columns,
+    rows
+) {
 
     const container =
         document.getElementById(
@@ -560,12 +789,18 @@ function createTable(columns, rows) {
     if (!columns.length) {
 
         container.innerHTML = `
+
             <div class="empty-result">
+
                 No data was returned.
+
             </div>
+
         `;
 
+
         return;
+
     }
 
 
@@ -573,15 +808,23 @@ function createTable(columns, rows) {
         "<table><thead><tr>";
 
 
-    columns.forEach(column => {
+    columns.forEach(
+        column => {
 
-        html += `
-            <th>
-                ${escapeHTML(column)}
-            </th>
-        `;
+            html += `
 
-    });
+                <th>
+
+                    ${escapeHTML(
+                        column
+                    )}
+
+                </th>
+
+            `;
+
+        }
+    );
 
 
     html +=
@@ -591,34 +834,52 @@ function createTable(columns, rows) {
     if (!rows.length) {
 
         html += `
+
             <tr>
+
                 <td colspan="${columns.length}">
+
                     No matching records found.
+
                 </td>
+
             </tr>
+
         `;
 
     } else {
 
-        rows.forEach(row => {
+        rows.forEach(
+            row => {
 
-            html += "<tr>";
-
-
-            row.forEach(value => {
-
-                html += `
-                    <td>
-                        ${escapeHTML(value)}
-                    </td>
-                `;
-
-            });
+                html +=
+                    "<tr>";
 
 
-            html += "</tr>";
+                row.forEach(
+                    value => {
 
-        });
+                        html += `
+
+                            <td>
+
+                                ${escapeHTML(
+                                    value
+                                )}
+
+                            </td>
+
+                        `;
+
+                    }
+                );
+
+
+                html +=
+                    "</tr>";
+
+            }
+        );
 
     }
 
@@ -629,6 +890,7 @@ function createTable(columns, rows) {
 
     container.innerHTML =
         html;
+
 }
 
 
@@ -649,26 +911,32 @@ function escapeHTML(value) {
 
 
     return String(value)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
         );
+
 }
 
 
@@ -676,7 +944,9 @@ function escapeHTML(value) {
 // SET QUESTION
 // =====================================================
 
-function setQuestion(question) {
+function setQuestion(
+    question
+) {
 
     const input =
         document.getElementById(
@@ -691,16 +961,22 @@ function setQuestion(question) {
     input.focus();
 
 
-    input.style.borderColor =
-        "#6366f1";
+    input.classList.add(
+        "history-selected"
+    );
 
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        input.style.borderColor =
-            "";
+            input.classList.remove(
+                "history-selected"
+            );
 
-    }, 800);
+        },
+        800
+    );
+
 }
 
 
@@ -716,11 +992,14 @@ function newQuestion() {
         );
 
 
-    input.value = "";
+    input.value =
+        "";
 
 
     document
-        .getElementById("result")
+        .getElementById(
+            "result"
+        )
         .classList.add(
             "hidden"
         );
@@ -729,10 +1008,16 @@ function newQuestion() {
     input.focus();
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo(
+        {
+            top:
+                0,
+
+            behavior:
+                "smooth"
+        }
+    );
+
 }
 
 
@@ -766,6 +1051,7 @@ function toggleSQL() {
             "hidden"
         );
 
+
         arrow.textContent =
             "▲";
 
@@ -775,9 +1061,12 @@ function toggleSQL() {
             "hidden"
         );
 
+
         arrow.textContent =
             "▼";
+
     }
+
 }
 
 
@@ -785,13 +1074,17 @@ function toggleSQL() {
 // COPY SQL
 // =====================================================
 
-async function copySQL(event) {
+async function copySQL(
+    event
+) {
 
     event.stopPropagation();
 
 
     if (!currentSQL) {
+
         return;
+
     }
 
 
@@ -814,12 +1107,15 @@ async function copySQL(event) {
             "Copied ✓";
 
 
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            button.textContent =
-                originalText;
+                button.textContent =
+                    originalText;
 
-        }, 1500);
+            },
+            1500
+        );
 
 
     } catch (error) {
@@ -827,7 +1123,9 @@ async function copySQL(event) {
         alert(
             "Could not copy SQL."
         );
+
     }
+
 }
 
 
@@ -835,7 +1133,9 @@ async function copySQL(event) {
 // ERROR
 // =====================================================
 
-function showError(message) {
+function showError(
+    message
+) {
 
     const result =
         document.getElementById(
@@ -851,21 +1151,26 @@ function showError(message) {
                 ⚠️
             </div>
 
+
             <div>
 
                 <h3>
                     Something went wrong
                 </h3>
 
+
                 <p>
                     ${escapeHTML(message)}
                 </p>
+
 
                 <button
                     onclick="newQuestion()"
                     class="new-question-button"
                 >
+
                     Try again
+
                 </button>
 
             </div>
@@ -878,6 +1183,7 @@ function showError(message) {
     result.classList.remove(
         "hidden"
     );
+
 }
 
 
@@ -913,7 +1219,10 @@ function showAnalyst() {
             "AI Analyst";
 
 
-    updateSidebar(0);
+    updateSidebar(
+        0
+    );
+
 }
 
 
@@ -949,7 +1258,9 @@ async function showPrediction() {
             "ML Prediction";
 
 
-    updateSidebar(1);
+    updateSidebar(
+        1
+    );
 
 
     try {
@@ -965,6 +1276,7 @@ async function showPrediction() {
             throw new Error(
                 `Server error (${response.status})`
             );
+
         }
 
 
@@ -978,52 +1290,73 @@ async function showPrediction() {
                 result.error ||
                 "Prediction failed."
             );
+
         }
 
 
         let html = `
+
             <table>
 
                 <thead>
 
                     <tr>
-                        <th>Date</th>
-                        <th>Predicted Revenue</th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Predicted Revenue
+                        </th>
+
                     </tr>
 
                 </thead>
 
                 <tbody>
+
         `;
 
 
-        result.data.forEach(item => {
+        result.data.forEach(
+            item => {
 
-            html += `
-                <tr>
+                html += `
 
-                    <td>
-                        ${escapeHTML(
-                            item.sale_date
-                        )}
-                    </td>
+                    <tr>
 
-                    <td>
-                        ${Number(
-                            item.predicted_revenue
-                        ).toFixed(2)}
-                    </td>
+                        <td>
 
-                </tr>
-            `;
+                            ${escapeHTML(
+                                item.sale_date
+                            )}
 
-        });
+                        </td>
+
+
+                        <td>
+
+                            ${Number(
+                                item.predicted_revenue
+                            ).toFixed(2)}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
 
 
         html += `
+
                 </tbody>
 
             </table>
+
         `;
 
 
@@ -1042,6 +1375,7 @@ async function showPrediction() {
             <div class="empty-result">
 
                 Prediction error:
+
                 ${escapeHTML(
                     error.message
                 )}
@@ -1049,7 +1383,9 @@ async function showPrediction() {
             </div>
 
         `;
+
     }
+
 }
 
 
@@ -1057,7 +1393,9 @@ async function showPrediction() {
 // SIDEBAR
 // =====================================================
 
-function updateSidebar(activeIndex) {
+function updateSidebar(
+    activeIndex
+) {
 
     const buttons =
         document.querySelectorAll(
@@ -1066,7 +1404,10 @@ function updateSidebar(activeIndex) {
 
 
     buttons.forEach(
-        (button, index) => {
+        (
+            button,
+            index
+        ) => {
 
             if (
                 index === activeIndex
@@ -1081,10 +1422,12 @@ function updateSidebar(activeIndex) {
                 button.classList.remove(
                     "active"
                 );
+
             }
 
         }
     );
+
 }
 
 
@@ -1093,7 +1436,9 @@ function updateSidebar(activeIndex) {
 // =====================================================
 
 document
-    .getElementById("question")
+    .getElementById(
+        "question"
+    )
     .addEventListener(
         "keydown",
         function(event) {
@@ -1114,7 +1459,7 @@ document
 
 
 // =====================================================
-// LOAD HISTORY WHEN PAGE OPENS
+// LOAD HISTORY
 // =====================================================
 
 document.addEventListener(

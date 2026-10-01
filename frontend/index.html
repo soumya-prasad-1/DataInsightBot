@@ -2,265 +2,327 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DataInsightBot | AI Business Analyst</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <div class="app">
+<div class="app">
 
-        <!-- ================= SIDEBAR ================= -->
+    <!-- =================================================
+         SIDEBAR
+    ================================================= -->
 
-        <aside class="sidebar">
+    <aside class="sidebar">
 
-            <div class="brand">
-                <div class="brand-icon">
-                    📊
-                </div>
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div class="brand-text">
+
+                <h2>
+                    DataInsightBot
+                </h2>
+
+                <span>
+                    AI Business Analyst
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ANALYTICS -->
+
+        <div class="sidebar-section">
+
+            <p class="sidebar-label">
+                ANALYTICS
+            </p>
+
+
+            <button
+                class="sidebar-button active"
+                onclick="showAnalyst()"
+            >
+
+                <span class="sidebar-button-icon">
+                    🤖
+                </span>
+
+                <span>
+                    AI Analyst
+                </span>
+
+            </button>
+
+
+            <button
+                class="sidebar-button"
+                onclick="showPrediction()"
+            >
+
+                <span class="sidebar-button-icon">
+                    📈
+                </span>
+
+                <span>
+                    ML Prediction
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             RECENT QUESTIONS
+        ================================================= -->
+
+        <div class="recent-history">
+
+            <div class="recent-history-header">
 
                 <div>
-                    <h2>DataInsightBot</h2>
-                    <span>AI Business Analyst</span>
-                </div>
-            </div>
-
-
-            <!-- ANALYTICS -->
-
-            <div class="sidebar-section">
-
-                <p class="sidebar-label">
-                    ANALYTICS
-                </p>
-
-                <button
-                    class="sidebar-button active"
-                    onclick="showAnalyst()"
-                >
-                    <span>🤖</span>
-                    AI Analyst
-                </button>
-
-                <button
-                    class="sidebar-button"
-                    onclick="showPrediction()"
-                >
-                    <span>📈</span>
-                    ML Prediction
-                </button>
-
-            </div>
-
-
-            <!-- ================= RECENT QUESTIONS ================= -->
-
-            <div class="recent-history">
-
-                <div class="recent-history-header">
 
                     <span class="recent-history-title">
                         RECENT QUESTIONS
                     </span>
 
-                    <button
-                        id="clear-history"
-                        class="clear-history hidden"
-                        onclick="clearHistory()"
+                    <span
+                        id="history-count"
+                        class="history-count"
                     >
-                        Clear
-                    </button>
+                        0
+                    </span>
 
                 </div>
 
-                <div
-                    id="recent-history-list"
-                    class="recent-history-list"
+
+                <button
+                    id="clear-history"
+                    class="clear-history hidden"
+                    onclick="clearHistory()"
                 >
-                </div>
+                    Clear
+                </button>
 
             </div>
 
 
-            <!-- SIDEBAR BOTTOM -->
-
-            <div class="sidebar-bottom">
-
-                <div class="system-status">
-
-                    <span class="status-dot"></span>
-
-                    <div>
-                        <strong>System Online</strong>
-                        <small>API connected</small>
-                    </div>
-
-                </div>
-
-                <div class="sidebar-footer">
-                    DataInsightBot © 2026
-                </div>
-
+            <div
+                id="recent-history-list"
+                class="recent-history-list"
+            >
             </div>
 
-        </aside>
+        </div>
 
 
-        <!-- ================= MAIN ================= -->
+        <!-- SIDEBAR BOTTOM -->
 
-        <main class="main-content">
+        <div class="sidebar-bottom">
 
-            <!-- TOP BAR -->
+            <div class="system-status">
 
-            <header class="topbar">
+                <span class="status-dot"></span>
 
                 <div>
 
-                    <p class="topbar-label">
-                        BUSINESS INTELLIGENCE
+                    <strong>
+                        System Online
+                    </strong>
+
+                    <small>
+                        API connected
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-footer">
+
+                DataInsightBot © 2026
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="topbar-label">
+                    BUSINESS INTELLIGENCE
+                </p>
+
+                <h1 id="page-title">
+                    AI Analyst
+                </h1>
+
+            </div>
+
+
+            <div class="topbar-badge">
+
+                <span>
+                    ●
+                </span>
+
+                AI Powered
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             AI ANALYST
+        ================================================= -->
+
+        <section id="analyst-section">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome-card">
+
+                <div class="welcome-icon">
+                    ✨
+                </div>
+
+
+                <div class="welcome-content">
+
+                    <h2>
+                        Ask your data anything
+                    </h2>
+
+                    <p>
+                        Ask a business question in plain English.
+                        DataInsightBot will generate SQL, analyze your database
+                        and explain the result.
                     </p>
 
-                    <h1 id="page-title">
-                        AI Analyst
-                    </h1>
-
                 </div>
 
-                <div class="topbar-badge">
-                    <span>●</span>
-                    AI Powered
-                </div>
-
-            </header>
+            </div>
 
 
-            <!-- ================= AI ANALYST ================= -->
 
-            <section id="analyst-section">
+            <!-- QUESTION CARD -->
 
-                <!-- WELCOME -->
+            <div class="question-card">
 
-                <div class="welcome-card">
 
-                    <div class="welcome-icon">
-                        ✨
-                    </div>
+                <div class="card-heading">
 
                     <div>
 
-                        <h2>
-                            Ask your data anything
-                        </h2>
+                        <span class="section-number">
+                            01
+                        </span>
 
-                        <p>
-                            Ask a business question in plain English.
-                            DataInsightBot will generate SQL, analyze your database
-                            and explain the result.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- QUESTION CARD -->
-
-                <div class="question-card">
-
-                    <div class="card-heading">
 
                         <div>
 
-                            <span class="section-number">
-                                01
-                            </span>
+                            <h3>
+                                Ask a Question
+                            </h3>
 
-                            <div>
-
-                                <h3>
-                                    Ask a Question
-                                </h3>
-
-                                <p>
-                                    Query your company database using natural language.
-                                </p>
-
-                            </div>
+                            <p>
+                                Query your company database using natural language.
+                            </p>
 
                         </div>
 
                     </div>
 
+                </div>
+
+
+
+                <!-- TEXTAREA -->
+
+                <div class="textarea-wrapper">
 
                     <textarea
                         id="question"
                         placeholder="Example: Which department has the highest average salary?"
                     ></textarea>
 
+                    <span class="textarea-glow"></span>
 
-                    <!-- SUGGESTIONS -->
-
-                    <div class="suggestion-area">
-
-                        <span class="suggestion-label">
-                            Try asking
-                        </span>
-
-                        <div class="suggestions">
-
-                            <button
-                                onclick="setQuestion('Which department has the highest average salary?')"
-                            >
-                                💰 Highest average salary
-                            </button>
-
-                            <button
-                                onclick="setQuestion('Which department has the most employees?')"
-                            >
-                                👥 Most employees
-                            </button>
-
-                            <button
-                                onclick="setQuestion('What are the total sales?')"
-                            >
-                                📊 Total sales
-                            </button>
-
-                            <button
-                                onclick="setQuestion('Which department has the highest number of employees?')"
-                            >
-                                🏢 Department analysis
-                            </button>
-
-                        </div>
-
-                    </div>
+                </div>
 
 
-                    <div class="question-bottom">
 
-                        <span class="enter-hint">
-                            Press Enter to analyze
-                        </span>
+                <!-- SUGGESTIONS -->
+
+                <div class="suggestion-area">
+
+                    <span class="suggestion-label">
+                        Try asking
+                    </span>
+
+
+                    <div class="suggestions">
 
                         <button
-                            id="analyze-button"
-                            class="analyze-button"
-                            onclick="askQuestion()"
+                            onclick="setQuestion('Which department has the highest average salary?')"
                         >
+                            💰 Highest average salary
+                        </button>
 
-                            <span id="analyze-text">
-                                Analyze
-                            </span>
 
-                            <span>
-                                →
-                            </span>
+                        <button
+                            onclick="setQuestion('Which department has the most employees?')"
+                        >
+                            👥 Most employees
+                        </button>
 
+
+                        <button
+                            onclick="setQuestion('What are the total sales?')"
+                        >
+                            📊 Total sales
+                        </button>
+
+
+                        <button
+                            onclick="setQuestion('Which department has the highest number of employees?')"
+                        >
+                            🏢 Department analysis
                         </button>
 
                     </div>
@@ -268,250 +330,145 @@
                 </div>
 
 
-                <!-- ================= AI STATUS ================= -->
 
-                <div
-                    id="loading"
-                    class="loading hidden"
-                >
+                <!-- QUESTION BOTTOM -->
 
-                    <div class="loader"></div>
+                <div class="question-bottom">
 
-                    <div class="loading-content">
+                    <span class="enter-hint">
+                        Press Enter to analyze
+                    </span>
 
-                        <strong id="loading-title">
-                            DataInsightBot is thinking...
-                        </strong>
-
-                        <span id="loading-subtitle">
-                            Understanding your question
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================= CHAT / RESULTS ================= -->
-
-                <div
-                    id="result"
-                    class="result-area hidden"
-                >
-
-                    <!-- USER QUESTION -->
-
-                    <div class="conversation-question">
-
-                        <div class="conversation-avatar user-avatar">
-                            You
-                        </div>
-
-                        <div class="conversation-message">
-
-                            <span class="message-label">
-                                Your question
-                            </span>
-
-                            <p id="asked-question"></p>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- AI INSIGHT -->
-
-                    <div class="result-card insight-card">
-
-                        <div class="result-card-header">
-
-                            <div class="result-title">
-
-                                <span class="result-icon">
-                                    ✨
-                                </span>
-
-                                <div>
-
-                                    <h3>
-                                        AI Insight
-                                    </h3>
-
-                                    <p>
-                                        Business interpretation
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                            <span class="ai-response-badge">
-                                AI Response
-                            </span>
-
-                        </div>
-
-                        <div
-                            id="explanation"
-                            class="explanation"
-                        >
-                        </div>
-
-                    </div>
-
-
-                    <!-- QUERY RESULT -->
-
-                    <div class="result-card">
-
-                        <div class="result-card-header">
-
-                            <div class="result-title">
-
-                                <span class="result-icon">
-                                    📊
-                                </span>
-
-                                <div>
-
-                                    <h3>
-                                        Query Results
-                                    </h3>
-
-                                    <p>
-                                        Data returned from the database
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                            <span
-                                id="result-count"
-                                class="result-count"
-                            >
-                            </span>
-
-                        </div>
-
-                        <div
-                            id="table-container"
-                            class="table-container"
-                        >
-                        </div>
-
-                    </div>
-
-
-                    <!-- SQL -->
-
-                    <div class="result-card sql-card">
-
-                        <button
-                            class="sql-toggle"
-                            onclick="toggleSQL()"
-                        >
-
-                            <div class="result-title">
-
-                                <span class="result-icon sql-icon">
-                                    &lt;/&gt;
-                                </span>
-
-                                <div>
-
-                                    <h3>
-                                        Generated SQL
-                                    </h3>
-
-                                    <p>
-                                        Query generated by the AI
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                            <span id="sql-arrow">
-                                ▼
-                            </span>
-
-                        </button>
-
-
-                        <div
-                            id="sql-content"
-                            class="sql-content hidden"
-                        >
-
-                            <div class="sql-header">
-
-                                <span>
-                                    SQL Query
-                                </span>
-
-                                <button onclick="copySQL(event)">
-                                    Copy
-                                </button>
-
-                            </div>
-
-                            <pre id="sql"></pre>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- NEW QUESTION -->
 
                     <button
-                        class="new-question-button"
-                        onclick="newQuestion()"
+                        id="analyze-button"
+                        class="analyze-button"
+                        onclick="askQuestion()"
                     >
 
-                        <span>
-                            ＋
+                        <span id="analyze-text">
+                            Analyze
                         </span>
 
-                        Ask another question
+                        <span class="analyze-arrow">
+                            →
+                        </span>
 
                     </button>
 
                 </div>
 
-            </section>
+            </div>
 
 
-            <!-- ================= ML PREDICTION ================= -->
 
-            <section
-                id="prediction"
-                class="hidden"
+            <!-- =================================================
+                 LOADING
+            ================================================= -->
+
+            <div
+                id="loading"
+                class="loading hidden"
             >
 
-                <div class="welcome-card prediction-welcome">
+                <div class="loader"></div>
 
-                    <div class="welcome-icon">
-                        🔮
+
+                <div class="loading-content">
+
+                    <strong id="loading-title">
+                        DataInsightBot is thinking...
+                    </strong>
+
+                    <span id="loading-subtitle">
+                        Understanding your question
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RESULTS
+            ================================================= -->
+
+            <div
+                id="result"
+                class="result-area hidden"
+            >
+
+
+                <!-- USER QUESTION -->
+
+                <div class="conversation-question">
+
+                    <div class="conversation-avatar user-avatar">
+                        You
                     </div>
 
-                    <div>
 
-                        <h2>
-                            Future Sales Prediction
-                        </h2>
+                    <div class="conversation-message">
 
-                        <p>
-                            Use the machine learning model to generate
-                            future sales revenue predictions.
-                        </p>
+                        <span class="message-label">
+                            Your question
+                        </span>
+
+                        <p id="asked-question"></p>
 
                     </div>
 
                 </div>
 
+
+
+                <!-- AI INSIGHT -->
+
+                <div class="result-card insight-card">
+
+                    <div class="result-card-header">
+
+                        <div class="result-title">
+
+                            <span class="result-icon">
+                                ✨
+                            </span>
+
+
+                            <div>
+
+                                <h3>
+                                    AI Insight
+                                </h3>
+
+                                <p>
+                                    Business interpretation
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="ai-response-badge">
+                            AI Response
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="explanation"
+                        class="explanation"
+                    >
+                    </div>
+
+                </div>
+
+
+
+                <!-- QUERY RESULTS -->
 
                 <div class="result-card">
 
@@ -520,61 +477,229 @@
                         <div class="result-title">
 
                             <span class="result-icon">
-                                📈
+                                📊
                             </span>
+
 
                             <div>
 
                                 <h3>
-                                    Predicted Revenue
+                                    Query Results
                                 </h3>
 
                                 <p>
-                                    Machine learning forecast
+                                    Data returned from the database
                                 </p>
 
                             </div>
 
                         </div>
 
-                        <span class="model-badge">
-                            Random Forest
+
+                        <span
+                            id="result-count"
+                            class="result-count"
+                        >
                         </span>
 
                     </div>
 
 
                     <div
-                        id="prediction-table"
+                        id="table-container"
                         class="table-container"
                     >
                     </div>
 
                 </div>
 
-            </section>
 
 
-            <!-- FOOTER -->
+                <!-- SQL -->
 
-            <footer class="main-footer">
+                <div class="result-card sql-card">
 
-                <span>
-                    DataInsightBot
-                </span>
+                    <button
+                        class="sql-toggle"
+                        onclick="toggleSQL()"
+                    >
 
-                <span>
-                    AI Powered Business Analytics
-                </span>
+                        <div class="result-title">
 
-            </footer>
-
-        </main>
-
-    </div>
+                            <span class="result-icon sql-icon">
+                                &lt;/&gt;
+                            </span>
 
 
-    <script src="script.js"></script>
+                            <div>
+
+                                <h3>
+                                    Generated SQL
+                                </h3>
+
+                                <p>
+                                    Query generated by the AI
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <span id="sql-arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        id="sql-content"
+                        class="sql-content hidden"
+                    >
+
+                        <div class="sql-header">
+
+                            <span>
+                                SQL Query
+                            </span>
+
+
+                            <button onclick="copySQL(event)">
+                                Copy
+                            </button>
+
+                        </div>
+
+
+                        <pre id="sql"></pre>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NEW QUESTION -->
+
+                <button
+                    class="new-question-button"
+                    onclick="newQuestion()"
+                >
+
+                    <span>
+                        ＋
+                    </span>
+
+                    Ask another question
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ML PREDICTION
+        ================================================= -->
+
+        <section
+            id="prediction"
+            class="hidden"
+        >
+
+
+            <div class="welcome-card prediction-welcome">
+
+                <div class="welcome-icon">
+                    🔮
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Future Sales Prediction
+                    </h2>
+
+                    <p>
+                        Use the machine learning model to generate
+                        future sales revenue predictions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="result-card">
+
+                <div class="result-card-header">
+
+                    <div class="result-title">
+
+                        <span class="result-icon">
+                            📈
+                        </span>
+
+
+                        <div>
+
+                            <h3>
+                                Predicted Revenue
+                            </h3>
+
+                            <p>
+                                Machine learning forecast
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="model-badge">
+                        Random Forest
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="prediction-table"
+                    class="table-container"
+                >
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="main-footer">
+
+            <span>
+                DataInsightBot
+            </span>
+
+            <span>
+                AI Powered Business Analytics
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
 
 </body>
 
