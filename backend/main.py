@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from backend.chat_service import chat_with_database
@@ -24,9 +25,7 @@ class Question(BaseModel):
 
 @app.get("/")
 def home():
-    return {
-        "message": "DataInsightBot API is running"
-    }
+    return FileResponse("frontend/index.html")
 
 
 @app.post("/ask")
